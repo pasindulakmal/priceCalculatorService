@@ -17,4 +17,6 @@ public class ProductCreateRequest {
     private Integer unitsInCarton;
 
     private Double discount;
+
+    private String img;
 }

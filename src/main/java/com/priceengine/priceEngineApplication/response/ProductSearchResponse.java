@@ -17,4 +17,6 @@ public class ProductSearchResponse {
 
     private Double discount;
 
+    private String img;
+
 }

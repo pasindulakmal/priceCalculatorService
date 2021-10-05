@@ -28,22 +28,32 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Double calculateProductPrice(long id , int units, int cartons) {
+    public Double calculateProductPrice(long id, int units, int cartons) {
         Product product = productRepository.getById(id);
-        double unitPrice;
-        double price = 0;
-        unitPrice=(product.getCartonPrice()+(30/100*product.getCartonPrice()))/product.getUnitsInCarton();
-        //carton
-        int newCarton = units / product.getUnitsInCarton();
-        int remainUnit = units % product.getUnitsInCarton();
-        int totalCarton =newCarton+cartons;
 
-        if(totalCarton>3){
-            price = (product.getCartonPrice()-(10/100*product.getCartonPrice()))*totalCarton;
+        int i = units % product.getUnitsInCarton();
+
+
+        //set discount
+        if(cartons>3 ||  units / product.getUnitsInCarton()>3){
+            product.setCartonPrice(product.getCartonPrice()-((product.getCartonPrice()*product.getDiscount())/100));
         }
-        //units
-        double totalPrice = unitPrice*remainUnit +price;
-        return round(totalPrice,2);
+
+        //cartons only
+        if (units == 0 && cartons != 0) {
+            return cartons * product.getCartonPrice();
+        }
+
+        double unitPrice = (product.getCartonPrice() + ((product.getCartonPrice() * 30) / 100)) / product.getUnitsInCarton();
+
+        //units only
+        if (units < product.getUnitsInCarton() && units != 0) {
+            return (unitPrice * units) + (cartons *product.getCartonPrice());
+        } else {
+            int newCarton = units / product.getUnitsInCarton();
+            int remainUnit = units % product.getUnitsInCarton();
+            return ((newCarton+cartons) * product.getCartonPrice()) + (unitPrice * (remainUnit));
+        }
     }
 
     public static double round(double value, int places) {
