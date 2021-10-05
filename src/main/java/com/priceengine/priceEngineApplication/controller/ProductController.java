@@ -31,6 +31,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @CrossOrigin
     @PostMapping("${app.endpoint.productCreate}")
     public ResponseEntity<Object> saveProduct(@Validated @RequestBody ProductCreateRequest request) {
         Product product = modelMapper.map(request, Product.class);
@@ -49,6 +50,7 @@ public class ProductController {
     }
 
 
+    @CrossOrigin
     @GetMapping("${app.endpoint.productPriceView}")
     public ResponseEntity<ProductPriceResponse> viewPrice(@PathVariable long id, ProductPriceRequest request) {
         Double totalPrice = productService.calculateProductPrice(id, request.getUnits(), request.getCartons());
