@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
 
 
         //set discount
-        if(cartons>3 ||  units / product.getUnitsInCarton()>3){
+        if(cartons>=3 ||  units / product.getUnitsInCarton()>=3){
             product.setCartonPrice(product.getCartonPrice()-((product.getCartonPrice()*product.getDiscount())/100));
         }
 
