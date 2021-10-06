@@ -36,23 +36,23 @@ public class ProductServiceImpl implements ProductService {
 
         //set discount
         if(cartons>=3 ||  units / product.getUnitsInCarton()>=3){
-            product.setCartonPrice(product.getCartonPrice()-((product.getCartonPrice()*product.getDiscount())/100));
+            product.setCartonPrice(round(product.getCartonPrice()-((product.getCartonPrice()*product.getDiscount())/100),2));
         }
 
         //cartons only
         if (units == 0 && cartons != 0) {
-            return cartons * product.getCartonPrice();
+            return round(cartons * product.getCartonPrice(),2);
         }
 
         double unitPrice = (product.getCartonPrice() + ((product.getCartonPrice() * 30) / 100)) / product.getUnitsInCarton();
 
         //units only
         if (units < product.getUnitsInCarton() && units != 0) {
-            return (unitPrice * units) + (cartons *product.getCartonPrice());
+            return round((unitPrice * units) + (cartons *product.getCartonPrice()),2);
         } else {
             int newCarton = units / product.getUnitsInCarton();
             int remainUnit = units % product.getUnitsInCarton();
-            return ((newCarton+cartons) * product.getCartonPrice()) + (unitPrice * (remainUnit));
+            return round(((newCarton+cartons) * product.getCartonPrice()) + (unitPrice * (remainUnit)),2);
         }
     }
 
