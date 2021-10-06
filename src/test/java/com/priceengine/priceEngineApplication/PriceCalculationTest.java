@@ -71,7 +71,7 @@ public class PriceCalculationTest {
         void checkUnitsGraterThanCartonAndCartonPurchasing() {
             Product product = Product.builder().id(Long.valueOf(1)).cartonPrice(175.00).discount(10.00).unitsInCarton(20).units(1000).build();
             Mockito.when(repository.getById(Long.valueOf(1))).thenReturn(product);
-            assertEquals(406.85, productService.calculateProductPrice(1, 25, 1), 0.01);
+            assertEquals(406.88, productService.calculateProductPrice(1, 25, 1), 0.01);
         }
 
     }
